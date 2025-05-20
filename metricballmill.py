@@ -359,7 +359,11 @@ def run():
 
                 output_permen_kg = float(outputKg_pr) - float(st.session_state["form_stock_wip"])
                 filler_kg = round((float(output_permen_kg) / outputKg_bm) * filler_bm, 2)
-                filler_batch = math.ceil((float(output_permen_kg) / outputKg_bm) * batch_bm)
+                
+                def force_ceil_to_half(x):
+                    return math.ceil(x * 2 + 1e-9) / 2
+                filler_batch_raw = (float(output_permen_kg) / outputKg_bm) * batch_bm
+                filler_batch = force_ceil_to_half(filler_batch_raw)
             else:
                 output_permen_kg = filler_kg = filler_batch = 0
             
