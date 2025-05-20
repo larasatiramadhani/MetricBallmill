@@ -123,7 +123,7 @@ def run():
                 left, right = st.columns((1, 20))
                 left.write("↳")
 
-                if column == "Tanggal"  # Slider untuk tanggal
+                if column == "Tanggal":  # Slider untuk tanggal
                     # Ubah format tanggalnya dulu agar bisa di sort
                     bulan_indo_to_eng = {
                         "Januari": "January", "Februari": "February", "Maret": "March", "April": "April",
