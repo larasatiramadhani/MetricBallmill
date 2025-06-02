@@ -511,7 +511,7 @@ def run():
         
         # Tentukan waktu shift berdasarkan hari
         if hari_masak == "Saturday" and pengajian_sabtu == True:
-            waktu_shift2 = "05.30 - 13.30"
+            waktu_shift2 = "10.00 - 15.00"
         elif hari_masak in ["Monday","Tuesday", "Wednesday", "Thursday", "Friday"]:
             waktu_shift2 = "14.00-22.00"
         elif hari_masak == "Saturday":
@@ -604,7 +604,7 @@ def run():
         with col_info:
             st.markdown(f"""
                 <div style="background-color:#eef6fc; padding:20px; border-radius:10px; text-align:center;">
-                    <div style="font-size:18px; font-weight:bold;">🕒 Waktu Shift 2</div>
+                    <div style="font-size:18px; font-weight:bold;">🕒 Waktu Shift 3</div>
                     <div style="font-size:26px; font-weight:bold; color:#0a4d8c;">{waktu_shift3}</div>
                     <hr style="margin:10px 0;">
                     <div style="font-size:18px; font-weight:bold;">⚖️ Berat (Kg)</div>
