@@ -358,12 +358,12 @@ def run():
                 batch_bm = row_match["Bt"].values[0]
 
                 output_permen_kg = float(outputKg_pr)
-                filler_kg = round((float(output_permen_kg) / outputKg_bm) * filler_bm, 2)
-                
+                filler_kg = round((float(output_permen_kg) / outputKg_bm) * filler_bm, 2)- float(st.session_state["form_stock_wip"])
+
                 def force_ceil_to_half(x):
                     return math.ceil(x * 2 + 1e-9) / 2
-                filler_batch_raw = (float(output_permen_kg) / outputKg_bm) * batch_bm
-                filler_batch = force_ceil_to_half(filler_batch_raw)
+                filler_batch_raw = filler_kg/454
+                filler_batch = force_ceil_to_half(filler_batch_raw) ##### KOREKSI PEMBULATAN
             else:
                 output_permen_kg = filler_kg = filler_batch = 0
             
@@ -376,7 +376,6 @@ def run():
             if "form_fillerBatch" not in st.session_state or tanggal != st.session_state["form_fillerBatch"]:
                 st.session_state["form_fillerBatch"] = filler_batch
             
-
               # Tampilkan info dengan layout kolom
             st.markdown("""
             <h3 style='text-align: center;'>💡 Informasi SPK Produksi Terpilih</h2>
@@ -482,7 +481,7 @@ def run():
                     key='form_batch1'
                 )
             no_mesin1 = st.selectbox("⚙️ Pilih No. Mesin untuk Shift 1", ['']+ mesin_bm_options, key='form_no_mesin1')
-
+            keterangan1 = st.text_area("Keterangan Shift 1",key=['form_keterangan1'])
         # =======================
         # Hitung berat berdasarkan no. mesin
         # =======================
@@ -513,7 +512,7 @@ def run():
         # Tentukan waktu shift berdasarkan hari
         if hari_masak == "Saturday" and pengajian_sabtu == True:
             waktu_shift2 = "05.30 - 13.30"
-        elif hari_masak in ["Tuesday", "Wednesday", "Thursday", "Friday"]:
+        elif hari_masak in ["Monday","Tuesday", "Wednesday", "Thursday", "Friday"]:
             waktu_shift2 = "14.00-22.00"
         elif hari_masak == "Saturday":
             waktu_shift2 = "11.00 - 16.00"
@@ -536,7 +535,7 @@ def run():
                             key='form_batch2'
                         )
             no_mesin2 = st.selectbox("⚙️ Pilih No. Mesin untuk Shift 2", [''] + mesin_bm_options , key='form_no_mesin2')
-
+            keterangan2 = st.text_area("Keterangan Shift 2",key=['form_keterangan2'])
         # =======================
         # Hitung berat berdasarkan no. mesin
         # =======================
@@ -567,7 +566,7 @@ def run():
         # Tentukan waktu shift berdasarkan hari
         if hari_masak == "Saturday" and pengajian_sabtu == True:
             waktu_shift3 = "15.00 - 20.00"
-        elif hari_masak in ["Tuesday", "Wednesday", "Thursday", "Friday"]:
+        elif hari_masak in ["Monday","Tuesday", "Wednesday", "Thursday", "Friday"]:
             waktu_shift3 = "22.00-06.00"
         elif hari_masak == "Saturday":
             waktu_shift3 = "16.00 - 21.00"
@@ -590,7 +589,7 @@ def run():
                             key='form_batch3'
                         )
             no_mesin3 = st.selectbox("⚙️ Pilih No. Mesin untuk Shift 3", ['']+ mesin_bm_options, key='form_no_mesin3')
-
+            keterangan3 = st.text_area("Keterangan Shift 3",key=['form_keterangan3'])
         # =======================
         # Hitung berat berdasarkan no. mesin
         # =======================
@@ -626,15 +625,16 @@ def run():
             formatted_tanggal = tanggal.strftime("%Y-%m-%d")  
             fromatted_tanggal_masak = tanggal_masak.strftime("%Y-%m-%d")
             # Format deskripsi shift
-            def format_shift(waktu, operator, batch, mesin, berat):
-                return f"{waktu}\n{operator}\n{batch}\n {mesin}\n {berat:,.0f}"
+            def format_shift(waktu, operator, batch, mesin, berat,keterangan):
+                return f"{waktu}\n{operator}\n{batch}\n {mesin}\n {berat:,.0f}\n{keterangan}"
             # SHIFT 1
             shift1_str = format_shift(
                 waktu_shift1,
                 operator1,
                 input_batch1,
                 no_mesin1,
-                beratKg1
+                beratKg1,
+                keterangan1
             )
 
             # SHIFT 2
@@ -643,7 +643,8 @@ def run():
                 operator2,
                 input_batch2,
                 no_mesin2,
-                beratKg2
+                beratKg2,
+                keterangan2
             )
 
             # SHIFT 3
@@ -652,7 +653,8 @@ def run():
                 operator3,
                 input_batch3,
                 no_mesin3,
-                beratKg3
+                beratKg3,
+                keterangan3
             )
             # Data yang akan dikirim ke Apps Script
             data = {
