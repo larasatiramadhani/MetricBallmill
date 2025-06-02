@@ -357,7 +357,7 @@ def run():
                 filler_bm = row_match["Filler"].values[0]
                 batch_bm = row_match["Bt"].values[0]
 
-                output_permen_kg = float(outputKg_pr) - float(st.session_state["form_stock_wip"])
+                output_permen_kg = float(outputKg_pr)
                 filler_kg = round((float(output_permen_kg) / outputKg_bm) * filler_bm, 2)
                 
                 def force_ceil_to_half(x):
