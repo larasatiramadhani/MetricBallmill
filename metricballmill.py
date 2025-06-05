@@ -329,7 +329,7 @@ def run():
             outputKg_pr = st.session_state["form_output(kg)"] = selected_row[9]
             outputBatch_pr = st.session_state["form_output(batch)"] = selected_row[10]
 
-            stock_wip = st.number_input("📦 Stock WIP Filler (Kg)", min_value=0.0, step=0.1, key="form_stock_wip")
+            stock_wip = st.number_input("📦 Stock WIP Filler (Kg)", step=0.1, key="form_stock_wip")
 
             ########### UNTUK PERHITUNGAN ####################################################################
             df_bm = pd.DataFrame(list_dropdown_bm, columns=["Item", "Siklus (kg)", "Filler", "Bt","","Operator","",'No. Mesin'])
